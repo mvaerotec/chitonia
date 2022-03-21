@@ -11,7 +11,7 @@ Chita is a chitonchita and has the following methidsme:
 .. autosummary::
    :toctree: generated
 
-   src/players/chita
+   chita
 
 
 APIChito

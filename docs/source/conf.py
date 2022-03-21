@@ -3,7 +3,8 @@
 # -- Project information
 
 import sys
-sys.path.insert(0, 'src/players')
+import os
+sys.path.insert(0, os.path.abspath('../../src/players'))
 
 project = 'Chitonia'
 copyright = '2022, Chitonito'
