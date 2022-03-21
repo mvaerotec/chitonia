@@ -40,6 +40,9 @@ class Chita(Base):
 
     # Action methods
     def holi(self):
+        """
+        Says holi being muy mona
+        """
         self.say("Holiiiii")
 
     def call_like_urraca(self):
@@ -50,6 +53,12 @@ class Chita(Base):
         """
         self.say("MAMAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!")
         self.mamichita.called_urraca()
+
+    def empapelar_universidad(self):
+        """
+        One of her favourite activities. She wants to see the university burn
+        """
+        self.say("HIJOS DE PUTA!")
 
     # Reception methods
     def recibir_amor(self, other):

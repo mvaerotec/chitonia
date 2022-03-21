@@ -4,7 +4,7 @@
 
 import sys
 import os
-sys.path.insert(0, os.path.abspath('../../src/players'))
+sys.path.insert(0, os.path.abspath('../..'))
 
 project = 'Chitonia'
 copyright = '2022, Chitonito'
