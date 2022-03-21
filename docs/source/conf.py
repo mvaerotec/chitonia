@@ -2,9 +2,12 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+import sys
+sys.path.insert(0, 'src/players')
+
+project = 'Chitonia'
+copyright = '2022, Chitonito'
+author = 'Chitonito'
 
 release = '0.1'
 version = '0.1.0'
