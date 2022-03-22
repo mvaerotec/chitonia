@@ -35,7 +35,21 @@ class Chita(Base):
 
     # Overriden methods
     def hello(self):
-        self.holi()
+        """
+        Says holi being muy mona
+        """
+        self.say("Holiiiii")
+
+    def action_possible(self):
+        return self.siesta
+
+    def update(self):
+        """
+        Called after each loop, to update certain values
+
+        In this case, we update siesta time
+        """
+        self.siesta = check_time(self.siesta_init, self.siesta_end)
 
     # Attributes
     def set_beauty(self, new_beauty):
@@ -53,12 +67,6 @@ class Chita(Base):
         self.geniality = new_geniality
 
     # Action methods
-    def holi(self):
-        """
-        Says holi being muy mona
-        """
-        self.say("Holiiiii")
-
     def call_like_urraca(self, other):
         """
         Calls mamichita like an Urraca and mamichita receives the call
@@ -88,11 +96,3 @@ class Chita(Base):
 
     def no_love(self, other):
         self.say("Vete feo no che quien erech")
-
-    def update(self):
-        """
-        Called after each loop, to update certain values
-
-        In this case, we update siesta time
-        """
-        self.siesta = check_time(self.siesta_init, self.siesta_end)

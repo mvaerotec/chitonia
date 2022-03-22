@@ -4,6 +4,7 @@ from chita import Chita
 from chito import Chito
 from mamichita import Mamichita
 from .utils import *
+from .game_end_exception import GameEndException
 
 class Pomtito(Base):
     def __init__(self):
@@ -12,7 +13,7 @@ class Pomtito(Base):
         self.list_love = [Chita, Chito, Gatete, Mamichita]
 
         self.state = "vaguete"
-        self.available_states = ["felis", "vaguete", "broncas"]
+        self.available_states = ["felis", "vaguete", "broncas", "asesino"]
 
         self.p_paseo = 0.6
         self.p_pomtito_guau = 0.1
@@ -45,9 +46,32 @@ class Pomtito(Base):
 
     # Overriden
     def update(self):
-        if random.rand() < self.p_pomtito_guau:
+        """
+        Method to run at the end of each loop iteration. In this case, the loop
+        is the following:
+
+        - If pomtito finds someone (randomly), he will be sent to 'broncas'
+        state and needs to be calmed down
+        - If pomtito is in broncas state, he will become even more angry and 
+        needs to be calmed down. State is set to 'asesino'
+        - If pomtito is in state asesino and not calmed down, he will kill 
+        someone and game will end
+
+        :return: None
+        """
+
+        if self.state == "asesino":
+            self.say("*He matado a alguien sin querer, lo siento*")
+            raise GameEndException("Pomtito ha matado a alguien")
+        elif self.state == "broncas":
+            self.guau()
+            self.guau()
+            self.say("*Pomtito está muy cabreado, deberías hacer algo...*")
+            self.state = "asesino"
+        elif random.rand() < self.p_pomtito_guau:
             self.guau()
             self.say("*He oído algo y le he tenido que echar la pomkibronca*")
+            self.state = "broncas"
         return
         
     def recibir_amor(self, other):
@@ -61,3 +85,12 @@ class Pomtito(Base):
         Determines if the action can be done or not
         """
         return True
+
+    def hello(self):
+        """
+        Pontito es felis cachi chiempre
+        """
+        if self.state == "broncas" or self.state == "asesino":
+            self.guau()
+        else:
+            self.say("*Pomtito felis*")

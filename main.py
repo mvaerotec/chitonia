@@ -3,6 +3,7 @@ Coding an interactive game for Chitonia's world
 """
 
 from src.utils import *
+from src.game_end_exception import GameEndException
 
 from src.players.chita import Chita
 from src.players.chito import Chito
@@ -52,7 +53,6 @@ def print_control_opts():
 def get_action(actions):
     print("Select an action")
     print_list(actions)
-    print(f"{len(actions)}. Change player")
     return actions[int(input("Enter your option: ")) - 1]
 
 def main():
@@ -69,25 +69,35 @@ def main():
             continue
 
         players[opt].hello()
-        while True:
             
-            player_actions = players[opt].available_actions
+        player_actions = players[opt].available_actions
 
-            try:
-                action = get_action(list(player_actions.keys()))
-            except IndexError:
-                break
-            
-            arg = input(get_prompt(action))
-            try:
-                if arg:
-                    player_actions[action](arg)
-                else:
-                    player_actions[action]()
-            except RuntimeError as e:
-                print("There was an error:")
-                print(e)
-            print()
+        try:
+            action = get_action(list(player_actions.keys()))
+        except IndexError:
+            break
+        
+        arg = input(get_prompt(action))
+        # TODO if method == amar - then arg should not be string, but player
+        if arg.lower() == "amar":
+            arg = players[players_names.index(arg)]
+        try:
+            if arg:
+                player_actions[action](arg)
+            else:
+                player_actions[action]()
+        except RuntimeError as e:
+            print("There was an error:")
+            print(e)
+        except GameEndException as e:
+            print("The game ended: " + str(e))
+            break
+        try:
+            for p in players:
+                p.update()
+        except GameEndException as e:
+            print("The game ended: " + str(e))
+            break
         print()
 
 
