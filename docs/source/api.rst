@@ -1,27 +1,8 @@
 API
 ===
 
-
-
-APIChita
---------
-
-Chita is a chitonchita and has the following methidsme:
-
-.. autosummary::
+.. automodule::
    :toctree: generated
 
-   src.players.chita
+   src.players
 
-
-APIChito
---------
-
-APIGato
--------
-
-APIPom
-------
-
-APIMamichita
-------------
