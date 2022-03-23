@@ -1,46 +1,48 @@
 
-from base import Base
+from .base import Base
 
 import random
 
 class Gatete(Base):
 
     def __init__(self):
+        self.name = "Gatete"
+        
         self.maaaa()
         self.state = "averning"
 
         self.possible_states = ["averning", "fiesta", "rec_lov"]
 
-        self.list_to_love = ()
+        self.list_love = ()
 
         self.available_actions = {
             "Jugar": self.play,
-            "Amar": self.amar,
-            "Cambiar estado": self.set_state
+            "Amar": self.love,
         }
 
-    # Attributes
-    def set_state(self, new_state):
-        if new_state in self.possible_states:
-            self.state = new_state
-        else:
-            raise RuntimeError("Possible States are " + ', '.join(self.possible_states))
+        self.p_ni_caso = 0.3
 
     # Overriden methods
-    def hello():
+    def hello(self):
         self.maaaa()
     
-    def recibir_amor(self, other, quantity):
+    def receive_love(self, other):
+        """
+        Gato does not like love, no matter who is the other. He is a gatete
+        """
         self.maaaa()
         self.state = "rec_lov"
         self.point("suelo")
     
     def action_possible(self):
-        if random.rand() < 0.3:
+        if random.random() < self.p_ni_caso:
             self.maaaa()
             print("*Parece que a gato no le ha apetecido*")
             return False
         return True
+
+    def update(self):
+        return
 
     # Action methods
     def point(self, where):

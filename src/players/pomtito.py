@@ -1,16 +1,19 @@
-from base import Base
-from gatete import Gatete
-from chita import Chita
-from chito import Chito
-from mamichita import Mamichita
-from .utils import *
-from .game_end_exception import GameEndException
+import random
+
+from .base import Base
+from ..utils import *
+from ..game_end_exception import GameEndException
 
 class Pomtito(Base):
     def __init__(self):
         self.name = "Pomtito"
 
-        self.list_love = [Chita, Chito, Gatete, Mamichita]
+        # Importing inside init to avoid circular import
+        from .gatete import Gatete
+        from .chita import Chita
+        from .chito import Chito
+        from .mamichita import Mamichita
+        self.list_love = (Chita, Chito, Gatete, Mamichita)
 
         self.state = "vaguete"
         self.available_states = ["felis", "vaguete", "broncas", "asesino"]
@@ -36,7 +39,7 @@ class Pomtito(Base):
         """
         Maybe he wants to, maybe not
         """
-        if random.rand() < self.p_paseo:
+        if random.random() < self.p_paseo:
             self.state = "felis"
             self.say("*Saltitos y quiero paseo*")
             self.say("*He hecho pomkipis*")
@@ -68,15 +71,16 @@ class Pomtito(Base):
             self.guau()
             self.say("*Pomtito está muy cabreado, deberías hacer algo...*")
             self.state = "asesino"
-        elif random.rand() < self.p_pomtito_guau:
+        elif random.random() < self.p_pomtito_guau:
             self.guau()
             self.say("*He oído algo y le he tenido que echar la pomkibronca*")
             self.state = "broncas"
         return
         
-    def recibir_amor(self, other):
+    def receive_love(self, other):
         if isinstance(other, self.list_love):
             self.state = "felich"
+            self.say("*Pomtito felis, le gusta el amor*")
         else:
             self.guau()
 

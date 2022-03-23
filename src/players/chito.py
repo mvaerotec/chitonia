@@ -1,13 +1,9 @@
 import numpy as np
 import random
 
-from base import Base
-from gatete import Gatete
-from chito import Chito
-from pomtito import Pomtito
-from mamichita import Mamichita
-from .utils import *
-from .game_end_exception import GameEndException
+from .base import Base
+from ..utils import *
+from ..game_end_exception import GameEndException
 
 
 class Chito(Base):
@@ -24,11 +20,17 @@ class Chito(Base):
 
         self.estado_civil = "chiteado"
         self.p_mimich = 0.2
+        self.p_liada = 0.2
 
-        self.list_to_love = (Chito, Gatete, Pomtito, Mamichita)
+        # Importing inside init to avoid circular import
+        from .gatete import Gatete
+        from .chita import Chita
+        from .pomtito import Pomtito
+        from .mamichita import Mamichita
+        self.list_love = (Chita, Gatete, Pomtito, Mamichita)
 
         self.available_actions = {
-            "Amar": self.amar
+            "Amar": self.love
         }
 
     def hello(self):
@@ -42,13 +44,16 @@ class Chito(Base):
             self.say("Holiiiii")
     
     # Reception methods
-    def recibir_amor(self, other):
+    def receive_love(self, other):
         """
         He is a cocha mimocha. He likes to receive love
 
         If chita loves him, he becomes happy
         If gato or pom love him, he is not sad anymore
         """
+        from .gatete import Gatete
+        from .chita import Chita
+        from .pomtito import Pomtito
         if isinstance(other, Chita):
             self.say("PRRRRRRRR MIMICH QUE FELIS")
             self.state = "felis"
@@ -69,10 +74,17 @@ class Chito(Base):
         if self.state == "trichte":
             self.say("PRRRRRRRRRR")
             raise GameEndException("Chito echta trichte y no ha rechibido mimich")
-        elif self.state = "mimochi":
+        elif self.state == "mimochi":
             self.say("POR QUE NO TENGO MIMICH")
             self.state = "trichte"
+        elif self.state == "liada":
+            self.say("CHITAAAAAAAAAA AYUDAAAAAAAAAAAAA")
+            self.state = "trichte"
 
-        if random.rand() < self.p_mimich:
+        if random.random() < self.p_mimich and self.state != "liada":
             self.say("QUERO MIMICH")
+            self.state = "mimochi"
+        elif random.random() < self.p_mimich and self.state != "mimochi":
+            self.say("Chita la he liaaaaadooooooooooooooooo")
+            self.state = "liada"
         return

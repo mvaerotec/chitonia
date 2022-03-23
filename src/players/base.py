@@ -5,11 +5,13 @@ class Base:
     def __init__(self):
         raise NotImplementedError("This class must not be initialized")
 
-    def amar(self, other):
-        if not isinstance(other, self.list_to_love):
-            self.no_love()
+    def love(self, other):
+        if isinstance(other, self.list_love):
+            other.receive_love(self)
+        elif isinstance(other, self.__class__):
+            self.say("Como me amo yo a mí mismo????")
         else:
-            other.recibir_amor(self)
+            self.no_love()
 
     def update(self):
         raise NotImplementedError("This method must be overwritten")
