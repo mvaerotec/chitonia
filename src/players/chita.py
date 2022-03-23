@@ -6,6 +6,15 @@ from ..utils import *
 
 
 class Chita(Base):
+    """
+    Chita is a chitonchita. She is the best, and I love her a lot. I'm going to
+    eat her face.
+
+    She likes doing Chita things, like empapelar cosas or calling like an
+    urraca gente. She is a Chita.
+
+    She also likes to play with Paichugato con forma
+    """
     def __init__(self):
         self.name = "Merime"
 
@@ -45,20 +54,28 @@ class Chita(Base):
         self.say("Holiiiii")
 
     def action_possible(self):
+        """
+        In this case, action depends on whether it is siesta time or not.
+
+        Chita is unavailable during siesta
+        """
         if self.siesta:
             self.say("*Chita echta durmiendo la chiesta* dejame ma")
         return not self.siesta
 
     def update(self):
         """
-        Called after each loop, to update certain values
-
+        Called after each loop, to update certain values.
         In this case, we update siesta time
         """
         self.siesta = is_time_between(self.siesta_init, self.siesta_end)
 
     # Attributes
     def set_beauty(self, new_beauty):
+        """
+        Set chita's beauty. I wouldn't bother to try any value other than the
+        real one...
+        """
         if new_beauty < np.inf:
             raise RuntimeError("Chita ech lo mach bonito que echiste, " + \
                                "cholo che admite infinitibello")
@@ -66,6 +83,10 @@ class Chita(Base):
         self.beauty = new_beauty
 
     def set_geniality(self, new_geniality):
+        """
+        Set chita's geniality. I wouldn't bother to try any value other than
+        the real one...
+        """
         if new_geniality < np.inf:
             raise RuntimeError("Chita ech lo mach genial que echiste," + \
                                "cholo che admite infinitibello")
@@ -75,9 +96,9 @@ class Chita(Base):
     # Action methods
     def call_like_urraca(self, other):
         """
-        Calls mamichita like an Urraca and mamichita receives the call
-
-        :return: None
+        Calls `other` like an Urraca
+        The behaviour depends on who is the other, but you can be sure that it
+        will sound like an Urraca
         """
         from .mamichita import Mamichita
         from .chito import Chito
@@ -92,6 +113,8 @@ class Chita(Base):
             self.say("GATETEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!")
         elif isinstance(other, Pomtito):
             self.say("Pomki deja de comerte al SEÑOOOOOOOOR!!!!!!!!!!!!")
+        elif isinstance(other, __class__):
+            self.say("CHITAAAAAAAAAAAAAAAA!!! Ah, si soy yo hehe")
         else:
             self.say("TUUUUUUUUUUUUUUUUUUUUUUUUU!!!!!!!!")
 
@@ -106,6 +129,10 @@ class Chita(Base):
         self.say("HIJOS DE PUTA!")
 
     def arreglar_liada(self, chito):
+        """
+        Chita is the best when chito la ha liado. She sorts things out in
+        this case
+        """
         if chito.state == "liada":
             self.say("A ver chiiiito que has hechoooo")
             chito.state = "felis"
@@ -115,6 +142,12 @@ class Chita(Base):
 
     # Reception methods
     def receive_love(self, other):
+        """
+        Chita likes to receive love, and behaviour depends on who is the one
+        giving the love
+        
+        Important: do not give love during siesta, she is not going to like it
+        """
         if self.siesta:
             self.say("Dejame que echtoy dormididor")
             return
@@ -128,6 +161,13 @@ class Chita(Base):
             self.say("AÑAÑA")
         else:
             self.say("Vete feo no che quien erech")
+            self.say("*Le ha arrancado la cabecha*")
 
     def no_love(self):
+        """
+        Chita does not like love from people she doesn't know. She sends him
+        out, but in fact she ends up arrancandole la cabecha porque ech una
+        chita
+        """
         self.say("Vete feo no che quien erech")
+        self.say("*Le ha arrancado la cabecha*")

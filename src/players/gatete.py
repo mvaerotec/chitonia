@@ -1,9 +1,19 @@
 
 from .base import Base
 
+from ..game_end_exception import GameEndException
+
 import random
 
 class Gatete(Base):
+    """
+    A gatete, pichu, averno, avernario milenario, forma, signiore, 
+    paichupollo. In fact, anything but Zeus, that's for sure.
+
+    He likes to play like an averno. He does not like love, and for sure he
+    will point to the floor if loved. If you are lucky, he may be willing to
+    amasar you, but I wouldn't hope for it (rare cases)
+    """
 
     def __init__(self):
         self.name = "Gatete"
@@ -11,19 +21,32 @@ class Gatete(Base):
         self.maaaa()
         self.state = "averning"
 
-        self.possible_states = ["averning", "fiesta", "rec_lov"]
+        self.possible_states = [
+            "averning",
+            "fiesta",
+            "rec_lov",
+            "dormido",
+            "hambriento",
+            "muy_hambriento"
+        ]
 
         self.list_love = ()
 
         self.available_actions = {
             "Jugar": self.play,
             "Amar": self.love,
+            "Amasar": self.amasar
         }
 
         self.p_ni_caso = 0.3
+        self.p_tranquilo = 0.2
+        self.p_hambre = 0.3
 
     # Overriden methods
     def hello(self):
+        """
+        During hello (and in many other situations), he will say maaa
+        """
         self.maaaa()
     
     def receive_love(self, other):
@@ -35,6 +58,10 @@ class Gatete(Base):
         self.point("suelo")
     
     def action_possible(self):
+        """
+        Gatete is an avernario milenario. There would be times when he is not
+        in the mood, and he will run away. Gatete
+        """
         if random.random() < self.p_ni_caso:
             self.maaaa()
             print("*Parece que a gato no le ha apetecido*")
@@ -42,7 +69,33 @@ class Gatete(Base):
         return True
 
     def update(self):
-        return
+        """
+        This method checks if he is hambriento, in which case he will let you
+        know. Also, and randomly, gatete may start feeling hungry or stay
+        quiet.
+
+        Tip: if he is quiet, maybe he may be willing to amasar...
+        """
+        if self.state == "hambriento":
+            self.maaaa()
+            self.say("*Acabo de tirarte la mitad de cosas de la mesa, " +\
+                "levantate yaaaaaa")
+            self.state = "muy_hambriento"
+        elif self.state == "muy_hambriento":
+            self.maaaa()
+            self.maaaa()
+            self.say("*Me he puesto a comer triskis porque no me has dado de comer, "+\
+                "sientete mal gentuzo")
+            raise GameEndException("Te sientes mal porque gatete ha ido a comer sin ti, "+\
+                "no le has hecho caso.")
+        elif random.random() < self.p_hambre:
+            self.say("*Son las 7 de la mañana, hora de desayunar*")
+            self.maaaa()
+            self.state = "hambriento"
+
+        if random.random() < self.p_tranquilo and self.state != "hambriento":
+            self.state = "tranquilo"
+
 
     # Action methods
     def point(self, where):
@@ -55,10 +108,10 @@ class Gatete(Base):
 
     def maaaa(self):
         """
-        This is the most basic method from Gato. I think I've never used a
-        function in a class more than this.
-
         It's a paichucat, and, obviously, says maaaa
+
+        This is the most basic method from Gato. I think I've never used a
+        function in a class more than this one.
         """
         self.say("MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
@@ -91,5 +144,10 @@ class Gatete(Base):
             self.say("*Muerde la mano incesantemente cual avernario milenario*")
         else:
             self.say("*Acecha*")
-    
 
+    def amasar(self, other):
+        if self.state == "tranquilo":
+            self.say("PRRRRRRRRRRRRR")
+        else:
+            self.maaaa()
+            self.say("*Se ha ido corriendo, qué esperabas?*")

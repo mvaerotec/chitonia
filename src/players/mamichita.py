@@ -4,7 +4,11 @@ from .base import Base
 from ..utils import is_time_between
 
 class Mamichita(Base):
-
+    """
+    She is the mami of Chita. She loves Chita a lot and takes care of her and
+    of chito when they need anything. She is also Gatete's novia, and both
+    like to spend time together, overall during siesta
+    """
     def __init__(self):
         self.name = "Mamichita"
 
@@ -31,6 +35,10 @@ class Mamichita(Base):
 
     # Overriden methods
     def action_possible(self):
+        """
+        Unavailable during siesta (Chita inherited it from someone) and during
+        the night, when she receives a phone call and you can say goodbye
+        """
         if self.siesta:
             self.say("Siesta time")
         elif self.cayo:
@@ -39,7 +47,10 @@ class Mamichita(Base):
         return not (self.siesta or self.cayo)
 
     def update(self):
-
+        """
+        Updates the time of her siesta and of her phone conversations, for
+        availability
+        """
         self.siesta = is_time_between(self.siesta_start, self.siesta_end)
         self.cayo = is_time_between(self.cayo_start, self.cayo_end)
 
@@ -52,6 +63,9 @@ class Mamichita(Base):
     def called_urraca(self):
         """
         Chita likes to call like an urraca. Mamichita has to answer
+
+        Don't expect an answer during siesta, and during phone conversations
+        the answer may difer
         """
         if not self.siesta:
             if self.cayo:

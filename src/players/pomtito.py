@@ -5,6 +5,14 @@ from ..utils import *
 from ..game_end_exception import GameEndException
 
 class Pomtito(Base):
+    """
+    He is a pomtito, paionch, beauty, triple/cuadruple/quintuple plaionch,
+    bellezo, pomtibebe, etc.
+
+    He is amoroso with the people he knows, but he wants to kill some people
+    (basically anyone that is able to breathe). Be careful if he starts to
+    bark as, even if he does not look like it, he is a dangerous creature
+    """
     def __init__(self):
         self.name = "Pomtito"
 
@@ -30,6 +38,9 @@ class Pomtito(Base):
     def guau(self):
         """
         He is a pomtito, he barks to the air
+
+        State is set to `broncas`, so be careful and do something or he may
+        get dangerous...
         """
         self.state = "broncas"
         self.say("GUAU GUAU GUAU GUAU GUAU GUAU!")
@@ -37,7 +48,7 @@ class Pomtito(Base):
 
     def pasear(self):
         """
-        Maybe he wants to, maybe not
+        Maybe he wants to, maybe not. Pure luck
         """
         if random.random() < self.p_paseo:
             self.state = "felis"
@@ -54,13 +65,11 @@ class Pomtito(Base):
         is the following:
 
         - If pomtito finds someone (randomly), he will be sent to 'broncas'
-        state and needs to be calmed down
+          state and needs to be calmed down
         - If pomtito is in broncas state, he will become even more angry and 
-        needs to be calmed down. State is set to 'asesino'
+          needs to be calmed down. State is set to 'asesino'
         - If pomtito is in state asesino and not calmed down, he will kill 
-        someone and game will end
-
-        :return: None
+          someone and game will end
         """
 
         if self.state == "asesino":
