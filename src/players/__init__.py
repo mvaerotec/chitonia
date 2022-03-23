@@ -6,40 +6,46 @@ their behaviour
 Base player
 -----------
 
-.. autosummary::
-    Base
+.. autoclass:: Base
+    :members:
+    :undoc-members:
 
 APIChita
 --------
 
 Chita is a chitonchita and has the following methidsme:
 
-.. autosummary::
-    Chita
+.. autoclass:: Chita
+    :members:
+    :undoc-members:
 
 APIChito
 --------
 
-.. autosummary::
-    Chito
+.. autoclass:: Chito
+    :members:
+    :undoc-members:
 
 APIGato
 -------
 
-.. autosummary::
-    Gatete
+.. autoclass:: Gatete
+    :members:
+    :undoc-members:
 
 APIPom
 ------
 
-.. autosummary::
-    Pomtito
+.. autoclass:: Pomtito
+    :members:
+    :undoc-members:
 
 APIMamichita
 ------------
 
-.. autosummary::
-    Mamichita
+.. autoclass:: Mamichita
+    :members:
+    :undoc-members:
 
 """
 
