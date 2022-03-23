@@ -1,5 +1,5 @@
 Welcome to Chitonia's documentation!
-===================================
+====================================
 
 Chitonia 
 

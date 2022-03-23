@@ -1,8 +1,8 @@
 API
 ===
 
-.. automodule::
+.. automodule:: src.players
    :toctree: generated
 
-   src.players
+   
 
