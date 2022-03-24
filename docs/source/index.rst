@@ -1,10 +1,8 @@
 Welcome to Chitonia's documentation!
 ====================================
 
-Chitonia 
-
 Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+instructions for the :ref:`installation` of the game.
 
 .. note::
 

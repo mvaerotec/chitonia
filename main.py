@@ -196,8 +196,6 @@ def main():
         new_line = f"{time.strftime('%Y-%m-%d-%H:%M')};{name};{rounds}"
         new_lines.append(new_line + '\n')
         print(f"{count}. " + new_line.replace(';', '\t\t'))
-    print("New lines")
-    print(new_lines)
     
     with open('scores.csv', 'w') as f:
         f.writelines(new_lines)
