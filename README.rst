@@ -5,11 +5,11 @@ Chitonia is a game where you can control... Well not exactly. Chitonia is not ju
 It is the very first interactive game ever where you can control a Gatete (sometimes)!!!! And a Chita!!!! And a Pomtito!!!!
 
 The aim of the game is to survive through rounds sorting out the different inconveniences that may appear.
-To play, just clone the repository and execute the `main.py` file.
+To play, just clone the repository and execute the ``main.py`` file.
 
 As a tip, you need to pay special attention to the prompts, so that you don't miss any situation you need to act about.
 
-Head over to `the documentation <https://chitonia.readthedocs.io>` to discover more. Enjoy!
+Head over to `the documentation <https://chitonia.readthedocs.io>`_ to discover more. Enjoy!
 
 Ahora en serio
 --------------
