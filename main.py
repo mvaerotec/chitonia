@@ -17,6 +17,8 @@ import os
 
 __version__ = "0.1.0"
 
+CRIT_VAL = 4
+
 players_names = [
     "Chita",
     "Chito",
@@ -84,17 +86,18 @@ def main():
     shuffled_players = players.copy()
     # Main loop
     rounds = 0
-    while True:
+    end = False
+    while not end:
         opt = print_control_opts()
         if opt == len(players_names):
             print("Player states")
             for p in players:
-                print(f"{p.name} - {p.state}")
+                print(f"{p.name} - {p.state} - {p.points}")
             print()
             continue
         elif opt == len(players_names) + 1:
             print(f"Saliendo - Aguantaste {rounds} rondas")
-            break
+            end = True
         elif opt == -1:
             print("Por favor, inserta un valor válido")
             print()
@@ -147,24 +150,32 @@ def main():
         except GameEndException as e:
             print("The game ended: " + str(e))
             print(f"You survived {rounds} rounds")
-            break
+            end = True
         try:
             random.shuffle(shuffled_players)
             action_trig = False
             for p in shuffled_players:
                 trig = p.update(action_trig)
                 action_trig = action_trig or trig
-                print(f"{p.name} - {p.state}")
+                print(f"{p.name} - {p.state} - {p.points}")
+                if p.points < CRIT_VAL:
+                    print(f"{p.name} is not having enough attention...")
+                if p.points <= 0:
+                    print(f"You didn't pay attention to {p.name} and he/she is now angry. The game ended.")
+                    end = True
         except GameEndException as e:
             print("The game ended: " + str(e))
             print(f"You survived {rounds} rounds")
-            break
+            end = True
         print(flush=True)
-        rounds += 1
+        if not end:
+            rounds += 1
     
+
+    # Write score file
     name = input("Write your name to store score: ")
     name = name.replace(';', '')
-    # Write score file
+
     alr_written = False
     new_lines = []
     count = 1

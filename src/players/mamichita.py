@@ -1,7 +1,7 @@
 from datetime import time
 
 from .base import Base
-from ..utils import is_time_between
+from ..utils import *
 
 class Mamichita(Base):
     """
@@ -13,6 +13,7 @@ class Mamichita(Base):
         self.name = "Mamichita"
 
         self.state = "Mamichita"
+        self.points = Points.INITIAL_VAL
 
         self.siesta_start = time(17,30)
         self.siesta_end = time(18,30)
@@ -24,10 +25,10 @@ class Mamichita(Base):
 
         # Importing inside init to avoid circular import
         from .gatete import Gatete
-        #from .pomtito import Pomtito
-        #from .chito import Chito
+        from .pomtito import Pomtito
+        from .chito import Chito
         from .chita import Chita
-        self.list_love = (Chita, Gatete)
+        self.list_love = (Chita, Gatete, Chito, Pomtito)
         
         self.available_actions = {
             "Amar": self.love
@@ -53,6 +54,10 @@ class Mamichita(Base):
         """
         self.siesta = is_time_between(self.siesta_start, self.siesta_end)
         self.cayo = is_time_between(self.cayo_start, self.cayo_end)
+        
+        if self.action_possible():
+            self.points -= Points.DECREASE
+
         return False
 
     def hello(self):
@@ -73,4 +78,22 @@ class Mamichita(Base):
                 self.say("Que estoy hablandoooooo")
             else:
                 self.say("QUE QUIEEEEEEEEEEERES")
+                self.points += Points.MED_INC
+    
+    def receive_love(self, other):
+        from .chita import Chita
+        from .chito import Chito
+        from .gatete import Gatete
+        if isinstance(other, Chita):
+            self.say("Pero merisinaaa")
+            self.points += Points.BIG_INC
+            other.points += Points.MED_INC
+        elif isinstance(other, Gatete):
+            self.say("Pero gato")
+            self.points += Points.MED_INC
+            other.points += Points.SMALL_INC
+        elif isinstance(other, Chito):
+            self.say("Hola! Que tal?")
+            self.points += Points.SMALL_INC
+            other.points += Points.SMALL_INC
         

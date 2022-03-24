@@ -19,6 +19,7 @@ class Chita(Base):
         self.name = "Merime"
 
         self.state = "chiteante"
+        self.points = Points.INITIAL_VAL
 
         self.beauty = np.inf
         self.geniality = np.inf
@@ -70,6 +71,10 @@ class Chita(Base):
         In this case, we update siesta time
         """
         self.siesta = is_time_between(self.siesta_init, self.siesta_end)
+
+        if self.action_possible():
+            self.points -= Points.DECREASE
+
         return False
 
     # Attributes
@@ -109,12 +114,16 @@ class Chita(Base):
         if isinstance(other, Mamichita):
             self.say("MAMAAAAAAAAAAAAAAAAAAAAA!!!!!!!!!!")
             other.called_urraca()
+            self.points += Points.MED_INC
         elif isinstance(other, Chito):
             self.say("CHITOOOOOOOOOOO!!!!!!!!!!!!")
+            self.points += Points.MED_INC
         elif isinstance(other, Gatete):
             self.say("GATETEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!!")
+            self.points += Points.MED_INC
         elif isinstance(other, Pomtito):
             self.say("Pomki deja de comerte al SEÑOOOOOOOOR!!!!!!!!!!!!")
+            self.points += Points.MED_INC
         elif isinstance(other, __class__):
             self.say("CHITAAAAAAAAAAAAAAAA!!! Ah, si soy yo hehe")
         else:
@@ -126,8 +135,10 @@ class Chita(Base):
         """
         if who != "universidad":
             self.say("Preferiría que fuese a la universidad, pero vale")
+            self.points += Points.MED_INC
         else:
             self.say("Oh boy here we go again")
+            self.points += Points.BIG_INC
         self.say("HIJOS DE PUTA!")
 
     def arreglar_liada(self, chito):
@@ -140,6 +151,8 @@ class Chita(Base):
             chito.state = "felis"
             chito.prev_state = "felis"
             chito.say("Chita es la mejorchi ma")
+            chito.points += Points.BIG_INC
+            self.points += Points.MED_INC
         else:
             chito.say("Pero si año he hecho añadaaaaaa jo")
 
@@ -153,15 +166,22 @@ class Chita(Base):
         """
         if self.siesta:
             self.say("Dejame que echtoy dormididor")
+            self.points -= 1
             return
         from .chito import Chito
         from .mamichita import Mamichita
         if isinstance(other, Chito):
             self.say("MIMICH BRBR")
+            self.points += Points.BIG_INC
+            other.points += Points.MED_INC
         elif isinstance(other, Mamichita):
             self.say("Mamiiiiiii")
+            self.points += Points.BIG_INC
+            other.points += Points.MED_INC
         elif isinstance(other, self.list_love):
             self.say("AÑAÑA")
+            self.points += Points.BIG_INC
+            other.points += Points.MED_INC
         else:
             self.say("Vete feo no che quien erech")
             self.say("*Le ha arrancado la cabecha*")
@@ -184,16 +204,27 @@ class Chita(Base):
         from .gatete import Gatete
         from .pomtito import Pomtito
         from .chito import Chito
+        from .mamichita import Mamichita
 
         if isinstance(other, Gatete):
             other.state = "averning"
             self.say("PEQUEÑO QUE TE HACE PAPI QUE NO TE DA DE COMER")
             other.say("*Comiendo triskitos*")
             other.maaaa()
+            other.points += Points.BIG_INC
         elif isinstance(other, Pomtito):
             self.say("Pomtito, cómete esto")
             other.say("*Lo huele*")
             other.say("Que te lo comas tuuuuuuu")
+            other.points += Points.MED_INC
         elif isinstance(other, Chito):
             other.say("Cocholate")
             self.say("Yo querooooo")
+            other.points += Points.BIG_INC
+            self.points += Points.MED_INC
+        elif isinstance(other, Mamichita):
+            other.say("Cocholate blanco!!!")
+            self.say("Meh")
+            other.points += Points.BIG_INC
+        else:
+            self.say("No che quien erech feo")

@@ -2,6 +2,7 @@
 from .base import Base
 
 from ..game_end_exception import GameEndException
+from ..utils import *
 
 import random
 
@@ -20,6 +21,7 @@ class Gatete(Base):
         
         self.maaaa()
         self.state = "averning"
+        self.points = Points.INITIAL_VAL
 
         self.possible_states = [
             "averning",
@@ -56,6 +58,7 @@ class Gatete(Base):
         self.maaaa()
         self.state = "rec_lov"
         self.point("suelo")
+        other.points += Points.MED_INC
     
     def action_possible(self):
         """
@@ -97,6 +100,8 @@ class Gatete(Base):
 
         if random.random() < self.p_tranquilo and self.state != "hambriento":
             self.state = "tranquilo"
+
+        self.points -= Points.DECREASE
 
         return action_trig
 
@@ -149,9 +154,13 @@ class Gatete(Base):
         else:
             self.say("*Acecha*")
 
+        self.points += Points.BIG_INC
+
     def amasar(self, other):
         if self.state == "tranquilo":
             self.say("PRRRRRRRRRRRRR")
+            self.points += Points.BIG_INC
         else:
             self.maaaa()
             self.say("*Se ha ido corriendo, qué esperabas?*")
+            self.points += Points.SMALL_INC

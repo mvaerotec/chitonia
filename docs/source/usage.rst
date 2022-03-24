@@ -29,19 +29,35 @@ The game contains 5 players:
 How to play
 -----------
 
-.. note:: It is better to just play and discover the interactions by yourself rather than reading them here!
-
 In the game, you will need to make the players interact between them and solve situations that may arise.
 These situations may arise randomly at the end of every turn, changing the state of the players, so watch out for the prompts or check the states regularly.
 
-There are four different situations that can arise at the end of every turn:
+Points
+^^^^^^
+
+Players have a set of points that can be consulted by requesting player's states. These points decrease in each turn, and the players can earn points back by interacting between each other.
+
+If any player's points fall below a certain threshold, you will be warned. If points fall to 0, game will end, so watch out carefully for information!
+
+.. note:: Now you have everything you need to start playing. From here the rest of the documentation can make spoilers, so it is better to just play and discover the interactions by yourself rather than reading them here!
+
+End of turn
+^^^^^^^^^^^
+
+There are four different end-of-turn situations (eots) that can arise at the end of every turn:
 
 - Pomtito starts barking someone and you need to calm him down. To solve it, just play with him, take him for a walk (both Pomtito actions) or love him (any other player).
 - Gatete starts being hungry and you need to feed him. You must use Chito or Chita to do so.
 - Chito gets mimochi and needs mimich. Chita, Pomtito or Gatete must love him to remove this state.
 - Chito lia something and needs chita to fix it. Chita needs to go and fix the liada.
 
-Also, players may be unavailable. Unavailabilities are the following:
+Player unavailability
+^^^^^^^^^^^^^^^^^^^^^
+
+Also, players may be unavailable to perform any action, and you may need to select them again. Depending on the player, selecting them a second time can make them available, but that is not for granted.
+A player's unavailability does not count for new eots or decreasing points.
+
+Unavailabilities are the following:
 
 - Chita during her siesta.
 - Mamichita during her siesta and her daily conversation with Cayo.

@@ -25,6 +25,7 @@ class Pomtito(Base):
 
         self.state = "felis"
         self.available_states = ["felis", "vaguete", "broncas", "asesino"]
+        self.points = Points.INITIAL_VAL
 
         self.action_guau = False
 
@@ -58,9 +59,11 @@ class Pomtito(Base):
             self.state = "felis"
             self.say("*Saltitos y quiero paseo*")
             self.say("*He hecho pomkipis*")
+            self.points += Points.BIG_INC
         else:
             self.state = "vaguete"
             self.say("*Se ha metido debajo de la mesa*")
+            self.points += Points.MED_INC
 
     # Overriden
     def update(self, alr_trig):
@@ -91,6 +94,9 @@ class Pomtito(Base):
             self.state = "broncas"
             action_trig = True
         self.action_guau = False
+
+        self.points -= Points.DECREASE
+
         return action_trig
         
     def receive_love(self, other):
@@ -101,6 +107,8 @@ class Pomtito(Base):
         if isinstance(other, self.list_love):
             self.state = "felich"
             self.say("*Pomtito felis, le gusta el amor*")
+            self.points += Points.BIG_INC
+            other.points += Points.SMALL_INC
         else:
             self.say("*Me lo acabo de cargar*")
             self.guau()
@@ -118,10 +126,13 @@ class Pomtito(Base):
         """
         Pontito es felis cachi chiempre
         """
-        if self.state == "broncas" or self.state == "asesino":
+        if self.state == "broncas":
             self.guau()
+        elif self.state == "asesino":
+            self.say("ME LO CARGO, ME LO CARGO")
         else:
             self.say("*Pomtito felis*")
+            self.points += Points.SMALL_INC
     
     def no_love(self):
         self.guau()
