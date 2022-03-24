@@ -43,7 +43,8 @@ class Chita(Base):
             "Empapelar": self.empapelar,
             "Cambiar belleza": self.set_beauty,
             "Cambiar genialidad": self.set_geniality,
-            "Arreglar liada": self.arreglar_liada
+            "Arreglar liada": self.arreglar_liada,
+            "Alimentar": self.alimentar
         }
 
     # Overriden methods
@@ -63,12 +64,13 @@ class Chita(Base):
             self.say("*Chita echta durmiendo la chiesta* dejame ma")
         return not self.siesta
 
-    def update(self):
+    def update(self, alr_trig):
         """
         Called after each loop, to update certain values.
         In this case, we update siesta time
         """
         self.siesta = is_time_between(self.siesta_init, self.siesta_end)
+        return False
 
     # Attributes
     def set_beauty(self, new_beauty):
@@ -133,9 +135,10 @@ class Chita(Base):
         Chita is the best when chito la ha liado. She sorts things out in
         this case
         """
-        if chito.state == "liada":
+        if chito.state == "liada" or chito.prev_state == "liada":
             self.say("A ver chiiiito que has hechoooo")
             chito.state = "felis"
+            chito.prev_state = "felis"
             chito.say("Chita es la mejorchi ma")
         else:
             chito.say("Pero si año he hecho añadaaaaaa jo")
@@ -171,3 +174,26 @@ class Chita(Base):
         """
         self.say("Vete feo no che quien erech")
         self.say("*Le ha arrancado la cabecha*")
+
+    def alimentar(self, other):
+        """
+        We need to keep other players in game feeded. The behavior of the
+        other depends on who it is. This method can be used to prevent
+        losing due to gatete's hunger
+        """
+        from .gatete import Gatete
+        from .pomtito import Pomtito
+        from .chito import Chito
+
+        if isinstance(other, Gatete):
+            other.state = "averning"
+            self.say("PEQUEÑO QUE TE HACE PAPI QUE NO TE DA DE COMER")
+            other.say("*Comiendo triskitos*")
+            other.maaaa()
+        elif isinstance(other, Pomtito):
+            self.say("Pomtito, cómete esto")
+            other.say("*Lo huele*")
+            other.say("Que te lo comas tuuuuuuu")
+        elif isinstance(other, Chito):
+            other.say("Cocholate")
+            self.say("Yo querooooo")

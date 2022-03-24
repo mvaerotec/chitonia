@@ -40,7 +40,7 @@ class Gatete(Base):
 
         self.p_ni_caso = 0.3
         self.p_tranquilo = 0.2
-        self.p_hambre = 0.3
+        self.p_hambre = 0.2
 
     # Overriden methods
     def hello(self):
@@ -68,7 +68,7 @@ class Gatete(Base):
             return False
         return True
 
-    def update(self):
+    def update(self, alr_trig):
         """
         This method checks if he is hambriento, in which case he will let you
         know. Also, and randomly, gatete may start feeling hungry or stay
@@ -76,6 +76,7 @@ class Gatete(Base):
 
         Tip: if he is quiet, maybe he may be willing to amasar...
         """
+        action_trig = False
         if self.state == "hambriento":
             self.maaaa()
             self.say("*Acabo de tirarte la mitad de cosas de la mesa, " +\
@@ -88,13 +89,16 @@ class Gatete(Base):
                 "sientete mal gentuzo")
             raise GameEndException("Te sientes mal porque gatete ha ido a comer sin ti, "+\
                 "no le has hecho caso.")
-        elif random.random() < self.p_hambre:
+        elif random.random() < self.p_hambre and not alr_trig:
             self.say("*Son las 7 de la mañana, hora de desayunar*")
             self.maaaa()
             self.state = "hambriento"
+            action_trig = True
 
         if random.random() < self.p_tranquilo and self.state != "hambriento":
             self.state = "tranquilo"
+
+        return action_trig
 
 
     # Action methods

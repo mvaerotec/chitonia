@@ -11,6 +11,8 @@ from src.players.gatete import Gatete
 from src.players.pomtito import Pomtito
 from src.players.mamichita import Mamichita
 
+import random
+
 __version__ = "0.1.0"
 
 players_names = [
@@ -26,8 +28,12 @@ prompts = {
     "Cambiar": "Cuál es el nuevo valor? ",
     "Amar": "A quién hay que dar amor? ",
     "Jugar": "Qué quieres usar para jugar? ",
-    "Llamar": "A quién quieres llamar? "
+    "Llamar": "A quién quieres llamar? ",
+    "Amasar": "A quién va a amasar gatete? ",
+    "Alimentar": "A quién vas a alimentar? "
 }
+
+prompts_arg_player = ["Amar", "Llamar", "Amasar", "Alimentar"]
 
 def get_prompt(action):
     for k, v in prompts.items():
@@ -73,7 +79,9 @@ def get_action(actions):
 def main():
 
     players = create_players()
+    shuffled_players = players.copy()
     # Main loop
+    rounds = 0
     while True:
         opt = print_control_opts()
         if opt == len(players_names):
@@ -83,7 +91,7 @@ def main():
             print()
             continue
         elif opt == len(players_names) + 1:
-            print("Saliendo")
+            print(f"Saliendo - Aguantaste {rounds} rondas")
             break
         elif opt == -1:
             print("Por favor, inserta un valor válido")
@@ -107,8 +115,11 @@ def main():
         prompt = get_prompt(action)
         if prompt:
             arg = input(prompt)
-            if "Amar" in action or "Llamar" in action:
-                arg = players[players_names.index(arg.capitalize())]
+            if action.split(" ")[0] in prompts_arg_player:
+                if arg.capitalize() in players_names:
+                    arg = players[players_names.index(arg.capitalize())]
+                else:
+                    arg = None
             elif "Cambiar" in action:
                 arg = float(arg)
             else:
@@ -129,15 +140,21 @@ def main():
             print(e)
         except GameEndException as e:
             print("The game ended: " + str(e))
+            print(f"You survived {rounds} rounds")
             break
         try:
-            for p in players:
-                p.update()
+            random.shuffle(shuffled_players)
+            action_trig = False
+            for p in shuffled_players:
+                trig = p.update(action_trig)
+                action_trig = action_trig or trig
                 print(f"{p.name} - {p.state}")
         except GameEndException as e:
             print("The game ended: " + str(e))
+            print(f"You survived {rounds} rounds")
             break
         print(flush=True)
+        rounds += 1
 
 
 if __name__ == "__main__":

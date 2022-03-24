@@ -46,13 +46,14 @@ class Mamichita(Base):
         
         return not (self.siesta or self.cayo)
 
-    def update(self):
+    def update(self, alr_trig):
         """
         Updates the time of her siesta and of her phone conversations, for
         availability
         """
         self.siesta = is_time_between(self.siesta_start, self.siesta_end)
         self.cayo = is_time_between(self.cayo_start, self.cayo_end)
+        return False
 
     def hello(self):
         self.say("Holi")

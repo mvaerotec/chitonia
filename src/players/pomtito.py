@@ -26,8 +26,11 @@ class Pomtito(Base):
         self.state = "vaguete"
         self.available_states = ["felis", "vaguete", "broncas", "asesino"]
 
+        self.action_guau = False
+
         self.p_paseo = 0.6
         self.p_pomtito_guau = 0.1
+        self.p_inaction = 0.3
 
         self.available_actions = {
             "Amar": self.love,
@@ -43,6 +46,7 @@ class Pomtito(Base):
         get dangerous...
         """
         self.state = "broncas"
+        self.action_guau = True
         self.say("GUAU GUAU GUAU GUAU GUAU GUAU!")
     
 
@@ -59,7 +63,7 @@ class Pomtito(Base):
             self.say("*Se ha metido debajo de la mesa*")
 
     # Overriden
-    def update(self):
+    def update(self, alr_trig):
         """
         Method to run at the end of each loop iteration. In this case, the loop
         is the following:
@@ -72,32 +76,40 @@ class Pomtito(Base):
           someone and game will end
         """
 
+        action_trig = False
         if self.state == "asesino":
             self.say("*He matado a alguien sin querer, lo siento*")
             raise GameEndException("Pomtito ha matado a alguien")
-        elif self.state == "broncas":
+        elif self.state == "broncas" and not self.action_guau:
             self.guau()
             self.guau()
             self.say("*Pomtito está muy cabreado, deberías hacer algo...*")
             self.state = "asesino"
-        elif random.random() < self.p_pomtito_guau:
+        elif random.random() < self.p_pomtito_guau and not alr_trig:
             self.guau()
             self.say("*He oído algo y le he tenido que echar la pomkibronca*")
             self.state = "broncas"
-        return
+            action_trig = True
+        self.action_guau = False
+        return action_trig
         
     def receive_love(self, other):
+        """
+        A pomtito is a cocha mimochi, and likes to receive love. But don't
+        try if you don't know him, you can end up really bad...
+        """
         if isinstance(other, self.list_love):
             self.state = "felich"
             self.say("*Pomtito felis, le gusta el amor*")
         else:
+            self.say("*Me lo acabo de cargar*")
             self.guau()
 
     def action_possible(self):
         """
         Determines if the action can be done or not
         """
-        return True
+        return not (self.state == "vaguete" and random.random() < self.p_inaction)
 
     def hello(self):
         """
@@ -107,3 +119,6 @@ class Pomtito(Base):
             self.guau()
         else:
             self.say("*Pomtito felis*")
+    
+    def no_love(self):
+        self.guau()

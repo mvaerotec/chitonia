@@ -10,7 +10,7 @@ class Base:
     def __init__(self):
         raise NotImplementedError("This class must not be initialized")
 
-    def love(self, other):
+    def love(self, other=None):
         """
         Main method for 'Love' action. It checks if `other` is within the
         player list of love and, if yes, it calls the `receive_love`
@@ -23,11 +23,16 @@ class Base:
         else:
             self.no_love()
 
-    def update(self):
+    def update(self, alr_trig):
         """
         Called at the end of each iteration, in order to update certain values
 
         These values depend on the player
+
+        Returns whether a random action has been triggered or not, to prevent
+        triggering more than one action each turn
+        
+        Receives as an argument whether an action has been already triggered
         """
         raise NotImplementedError("This method must be overriden")
         
