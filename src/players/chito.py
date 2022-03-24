@@ -95,11 +95,11 @@ class Chito(Base):
             self.prev_state = "liada"
 
         action_trig = False
-        if random.random() < self.p_mimich and self.state != "liada" and not alr_trig:
+        if random.random() < self.p_mimich and self.state != "trichte" and not alr_trig:
             self.say("QUERO MIMICH")
             self.state = "mimochi"
             action_trig = True
-        elif random.random() < self.p_mimich and self.state != "mimochi" and not alr_trig:
+        elif random.random() < self.p_mimich and self.state != "trichte" and not alr_trig:
             self.say("Chita la he liaaaaadooooooooooooooooo")
             self.state = "liada"
             action_trig = True

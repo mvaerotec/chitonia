@@ -12,6 +12,8 @@ from src.players.pomtito import Pomtito
 from src.players.mamichita import Mamichita
 
 import random
+import time
+import os
 
 __version__ = "0.1.0"
 
@@ -121,7 +123,11 @@ def main():
                 else:
                     arg = None
             elif "Cambiar" in action:
-                arg = float(arg)
+                try:
+                    arg = float(arg)
+                except ValueError:
+                    print("Por favor, inserta un valor válido")
+                    continue
             else:
                 # Arg has to be passed as a string as is, unprocessed
                 pass
@@ -155,7 +161,46 @@ def main():
             break
         print(flush=True)
         rounds += 1
+    
+    name = input("Write your name to store score: ")
+    name = name.replace(';', '')
+    # Write score file
+    alr_written = False
+    new_lines = []
+    count = 1
+    print("    Date\t\t\tPlayer\t\tScore")
+    if os.path.exists('scores.csv'):
 
+        with open('scores.csv', 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                if not line:
+                    # skip empty lines
+                    continue
+                try:
+                    date, name_l, score = line.split(';')
+                except ValueError:
+                    continue
+                score = score.strip()
+                if rounds >= int(score) and not alr_written:
+                    new_line = f"{time.strftime('%Y-%m-%d-%H:%M')};{name};{rounds}"
+                    new_lines.append(new_line + '\n')
+                    print(f"{count}. " + new_line.replace(';', '\t\t'))
+                    count += 1
+                    alr_written = True
+                print(f"{count}. {date}" + "\t\t" + name_l + "\t\t" + score)
+                new_lines.append(line)
+                count += 1
+
+    if not alr_written:
+        new_line = f"{time.strftime('%Y-%m-%d-%H:%M')};{name};{rounds}"
+        new_lines.append(new_line + '\n')
+        print(f"{count}. " + new_line.replace(';', '\t\t'))
+    print("New lines")
+    print(new_lines)
+    
+    with open('scores.csv', 'w') as f:
+        f.writelines(new_lines)
 
 if __name__ == "__main__":
     main()

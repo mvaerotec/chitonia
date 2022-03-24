@@ -23,7 +23,7 @@ class Pomtito(Base):
         from .mamichita import Mamichita
         self.list_love = (Chita, Chito, Gatete, Mamichita)
 
-        self.state = "vaguete"
+        self.state = "felis"
         self.available_states = ["felis", "vaguete", "broncas", "asesino"]
 
         self.action_guau = False
@@ -109,7 +109,10 @@ class Pomtito(Base):
         """
         Determines if the action can be done or not
         """
-        return not (self.state == "vaguete" and random.random() < self.p_inaction)
+        if self.state == "vaguete" and random.random() < self.p_inaction:
+            self.say("*Pomtito está vaguete, va a cher que añoma*")
+            return False
+        return True
 
     def hello(self):
         """
